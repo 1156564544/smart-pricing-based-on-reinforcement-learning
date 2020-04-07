@@ -10,10 +10,19 @@
    我们的程序一共包括两个文件，分别是training.py和comparing.py。training.py中包含如何基于强化学习的方法训练模型的函数，comparing.py则是对模型的效果进行一个测试。<br>
    
    下面介绍程序的具体细节。
-## training.py
-
-    training.py包中一个包括6个函数，分别是：load_func(),epsilon_greedy(qfunc,day,price,inventory,epsilon),update_price(price,action),Q_learning(qfunc,episodes=0),output_qfunc(qfunc),output_policy(qfunc)。下面我对这6个函数分别介绍。<br>
+## training.py介绍
+training.py包中一个包括6个函数，分别是：load_func(),epsilon_greedy(qfunc,day,price,inventory,epsilon),update_price(price,action),Q_learning(qfunc,episodes=0),output_qfunc(qfunc),output_policy(qfunc)。下面我对这6个函数分别介绍。<br>
     
+ load_qfunc()从‘my_pickle.pkl'文件导入qfunc，我们将训练好的模型的参数qfunc保存在文件’my_pickle.pkl'中，训练时首先从这个文件将模型参数导出来，如果没有‘my_pickle.pkl'则创建‘my_pickle.pkl'，并随机初始化qfunc，然后返回qfunc。<br>
+ 
+epsilon_greedy(qfunc,day,price,inventory,epsilon)是Q_learning算法中经常要用到的一个函数，它输入qfunc和当前的状态（day是时间，price是当前价格，inventory是库存数，用以计算舱位利用率），epsilon是一个自定义的学习参数，一般设为0.15。它返回该状态执行的动作。<br>
+
+Q_learning(qfunc,episodes=0）是训练模型的函数，输入模型的Q值qfunc以及训练的次数episodes，函数返回训练后模型的qfunc。<br>
+
+output_qfunc(qfunc)函数用于输出模型的qfunc，这是用来查看模型训练效果的函数。<br>
+
+output_policy(qfunc)函数用于输出模型的策略，这是用来查看模型最终训练出来的策勒的函数。<br>
     
 
-## comparing.py
+## comparing.py介绍
+   在comparing.py模块中，我们将模型学习出来的定价策略与随机定价策略（在81-130之间随即定价）和确定定价策略（价格一直定为100）进行对比，看看我们的模型效果怎么样。我们进行了仿真实验，模拟了20天每天的客户数以及每个客户所能接受的最高价格，计算采取不同定价策略所能获得的累积回报。结果表明，我们的模型训练出来的策略要优于随即定价策略和确定定价策略。
